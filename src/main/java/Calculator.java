@@ -3,11 +3,11 @@ import java.util.HashMap;
 import java.util.Scanner;
 
 public class Calculator {
-    static int personsToSplit;
-    static double totalPrice = 0;
+    int personsToSplit;
+    double totalPrice = 0;
 
-    static double pricePerPerson = 0;
-    static ArrayList<Product> products = new ArrayList<>();
+    double pricePerPerson = 0;
+    ArrayList<Product> products = new ArrayList<>();
 
     public void start() {
         while(true) {
@@ -29,14 +29,14 @@ public class Calculator {
         }
     }
 
-    public static void calculate() {
+    public void calculate() {
         getProductData();
         printProducts();
         calculatePricePerPerson();
         System.out.println(Formatter.formatMessage(pricePerPerson));
     }
 
-    public static void getProductData() {
+    public void getProductData() {
         Scanner scanner = new Scanner(System.in);
 
         while(true) {
@@ -45,6 +45,10 @@ public class Calculator {
 
             System.out.println("Введите стоимость товара в формате 'рубли.копейки': ");
             double productPrice = scanner.nextDouble();
+            while(productPrice < 0) {
+                System.out.println("Отрицательной стомости товара не существует. Введите валидные данные: ");
+                productPrice = scanner.nextDouble();
+            }
 
             addProduct(productName, productPrice);
 
@@ -56,18 +60,18 @@ public class Calculator {
         }
     }
 
-    public static void addProduct(String name, double price) {
+    public void addProduct(String name, double price) {
         Product newProduct = new Product(name, price);
         products.add(newProduct);
         totalPrice += price;
         System.out.println("Добавленные товары: " + newProduct.name);
     }
 
-    public static void calculatePricePerPerson() {
-        Calculator.pricePerPerson = totalPrice / personsToSplit;
+    public void calculatePricePerPerson() {
+        pricePerPerson = totalPrice / personsToSplit;
     }
 
-    public static void printProducts() {
+    public void printProducts() {
         System.out.println("Товары в калькуляторе:");
         for(Product product: products) {
             System.out.println(product.name);
